@@ -2,11 +2,17 @@
 
 set -euo pipefail
 
+# Default config
 OUTPUT_NAME="${OUTPUT_NAME:-eDP-1}"
 TRANSFORM_NORMAL="${TRANSFORM_NORMAL:-0}"
 TRANSFORM_BOTTOM="${TRANSFORM_BOTTOM:-180}"
 TRANSFORM_RIGHT="${TRANSFORM_RIGHT:-90}"
 TRANSFORM_LEFT="${TRANSFORM_LEFT:-270}"
+
+# Load user config (overrides defaults)
+if [[ -f ~/.config/swayrot8/config ]]; then
+    source ~/.config/swayrot8/config
+fi
 
 function apply_rotation {
     local orientation="$1"

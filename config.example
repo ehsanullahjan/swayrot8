@@ -1,0 +1,8 @@
+# Default config for swayrot8
+# Copy to ~/.config/swayrot8/config and edit it to your liking.
+
+OUTPUT_NAME=eDP-1
+TRANSFORM_NORMAL=0
+TRANSFORM_BOTTOM=180
+TRANSFORM_RIGHT=90
+TRANSFORM_LEFT=270
