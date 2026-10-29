@@ -14,12 +14,12 @@ Provides efficient rotation support for tablets and 2-in-1 laptops:
 
 A user-level `systemd` unit, `sway-rot8.service`, is included for reliable operation, and easy integration with Sway.
 
-## Installation
-
-`sway-rot8` depends on:
+## Requirements
 
 - SwayWM
-- iio-sensor-proxy
+- `iio-sensor-proxy` (provides `monitor-sensor`)
+
+## Installation
 
 ### Fedora Install
 
@@ -32,17 +32,27 @@ sudo dnf install -y swayrot8
 
 ### Manual Install
 
-TBD
+```bash
+git clone https://github.com/ehsanullahjan/swayrot8
+sudo cp swayrot8/swayrot8 /usr/libexec/
+sudo cp swayrot8/sway-rot8.service /usr/lib/systemd/user/
+sudo chmod +x /usr/libexec/swayrot8
+systemctl --user daemon-reload
+```
 
 ## Usage
 
-Invoke `sway-rot8.service` from your `Sway` config:
+Add `sway-rot8.service` to your `Sway` config to start the rotation daemon on startup:
 
 ```config
 exec systemctl --user restart sway-rot8.service
 ```
 
 Although, you can independently enable `sway-rot8.service`, the recommended approach is to integrate it with `Sway` (as shown above).
+
+> [!NOTE]
+> After setting up the daemon, either restart the machine, or start the service
+> manually: `systemctl --user restart sway-rot8.service`.
 
 ### Default Settings
 
@@ -79,3 +89,7 @@ Save the file, and exit. Restart the service (or your system) for the changes to
 systemctl --user daemon-reload
 systemctl --user restart sway-rot8.service
 ```
+
+## License
+
+MIT - see [LICENSE](LICENSE) for details.
