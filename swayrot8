@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+OUTPUT_NAME="${OUTPUT_NAME:-eDP-1}"
+TRANSFORM_NORMAL="${TRANSFORM_NORMAL:-0}"
+TRANSFORM_BOTTOM="${TRANSFORM_BOTTOM:-180}"
+TRANSFORM_RIGHT="${TRANSFORM_RIGHT:-90}"
+TRANSFORM_LEFT="${TRANSFORM_LEFT:-270}"
+
+function apply_rotation {
+    local orientation="$1"
+
+    case "$orientation" in
+    "normal")
+        swaymsg -q output "$OUTPUT_NAME" transform "$TRANSFORM_NORMAL"
+        ;;
+    "bottom-up")
+        swaymsg -q output "$OUTPUT_NAME" transform "$TRANSFORM_BOTTOM"
+        ;;
+    "right-up")
+        swaymsg -q output "$OUTPUT_NAME" transform "$TRANSFORM_RIGHT"
+        ;;
+    "left-up")
+        swaymsg -q output "$OUTPUT_NAME" transform "$TRANSFORM_LEFT"
+        ;;
+    esac
+}
+
+function run_monitor_loop {
+    monitor-sensor --accel | while read -r line; do
+        if [[ "$line" == *"Accelerometer orientation"* ]]; then
+            orientation="${line##* }"
+            apply_rotation "$orientation"
+        fi
+    done
+}
+
+run_monitor_loop
